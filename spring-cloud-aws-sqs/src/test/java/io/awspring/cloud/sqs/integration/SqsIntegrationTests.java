@@ -283,7 +283,7 @@ class SqsIntegrationTests extends BaseSqsIntegrationTest {
 	}
 
 	@Test
-	void maxConcurrentMessages() throws Exception {
+	void maxConcurrentMessages() {
 		List<Message<String>> messages = IntStream.range(0, 10)
 				.mapToObj(index -> "maxConcurrentMessages-payload-" + index)
 				.map(payload -> MessageBuilder.withPayload(payload).build()).collect(Collectors.toList());
