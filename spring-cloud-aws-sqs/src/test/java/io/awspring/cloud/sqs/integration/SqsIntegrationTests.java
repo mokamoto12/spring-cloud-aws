@@ -421,7 +421,7 @@ class SqsIntegrationTests extends BaseSqsIntegrationTest {
 		@Autowired
 		LatchContainer latchContainer;
 
-		@SqsListener(queueNames = MAX_CONCURRENT_MESSAGES_QUEUE_NAME, maxConcurrentMessages = "10", id = "max-concurrent-messages")
+		@SqsListener(queueNames = MAX_CONCURRENT_MESSAGES_QUEUE_NAME, maxMessagesPerPoll = "1", maxConcurrentMessages = "10", id = "max-concurrent-messages")
 		void listen(String message) throws BrokenBarrierException, InterruptedException {
 			logger.debug("Received message in Listener Method: " + message);
 			latchContainer.maxConcurrentMessagesBarrier.await();
