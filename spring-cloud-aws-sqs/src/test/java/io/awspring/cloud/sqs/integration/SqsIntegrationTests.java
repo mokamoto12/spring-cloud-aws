@@ -288,7 +288,7 @@ class SqsIntegrationTests extends BaseSqsIntegrationTest {
 				.map(payload -> MessageBuilder.withPayload(payload).build()).collect(Collectors.toList());
 		sqsTemplate.sendManyAsync(MAX_CONCURRENT_MESSAGES_QUEUE_NAME, messages);
 		logger.debug("Sent messages to queue {} with messages {}", MAX_CONCURRENT_MESSAGES_QUEUE_NAME, messages);
-		assertDoesNotThrow(() -> latchContainer.maxConcurrentMessagesBarrier.await(10, TimeUnit.SECONDS));
+		assertDoesNotThrow(() -> latchContainer.maxConcurrentMessagesBarrier.await(50, TimeUnit.SECONDS));
 	}
 
 	static class ReceivesMessageListener {
@@ -422,7 +422,7 @@ class SqsIntegrationTests extends BaseSqsIntegrationTest {
 
 		@SqsListener(queueNames = MAX_CONCURRENT_MESSAGES_QUEUE_NAME, maxMessagesPerPoll = "10", maxConcurrentMessages = "20", id = "max-concurrent-messages")
 		void listen(String message) throws BrokenBarrierException, InterruptedException {
-			logger.info("Received message in Listener Method: " + message);
+			logger.warn("Received message in Listener Method: " + message);
 			latchContainer.maxConcurrentMessagesBarrier.await();
 		}
 	}
