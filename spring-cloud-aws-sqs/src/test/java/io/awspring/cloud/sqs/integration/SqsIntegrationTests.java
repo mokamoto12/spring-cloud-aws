@@ -287,7 +287,7 @@ class SqsIntegrationTests extends BaseSqsIntegrationTest {
 				.mapToObj(index -> "maxConcurrentMessages-payload-" + index)
 				.map(payload -> MessageBuilder.withPayload(payload).build()).collect(Collectors.toList());
 		sqsTemplate.sendManyAsync(MAX_CONCURRENT_MESSAGES_QUEUE_NAME, messages);
-		logger.debug("Sent messages to queue {} with messages {}", MAX_CONCURRENT_MESSAGES_QUEUE_NAME, messages);
+		logger.warn("Sent messages to queue {} with messages {}", MAX_CONCURRENT_MESSAGES_QUEUE_NAME, messages);
 		assertDoesNotThrow(() -> latchContainer.maxConcurrentMessagesBarrier.await(50, TimeUnit.SECONDS));
 	}
 
